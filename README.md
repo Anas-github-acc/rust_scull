@@ -1,4 +1,5 @@
-# Rust out-of-tree module
+# Scull Driver
+(this driver using Rust out-of-tree module and below is the basic guide how to use and make the kernel object .ko )
 
 This is a basic template for an out-of-tree Linux kernel module written in Rust.
 
