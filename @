@@ -1,0 +1,32 @@
+use kernel::prelude::*;
+use kernel::error::Result; // Use this for the return type
+
+// Import the `module` item itself, plus the `KernelModule` trait and `Module` type
+use kernel::module::{self, KernelModule, Module}; 
+
+struct HelloWorldModule;
+
+/// This is called when you `insmod` the module.
+// Use the full path `module::KernelModule` to be unambiguous
+impl module::KernelModule for HelloWorldModule {
+    fn init(_module: &'static Module) -> Result<Self> {
+        pr_info!("rust_hello: Hello, world! My first Rust module is alive!\n");
+        Ok(HelloWorldModule)
+    }
+}
+
+/// This is called when you `rmmod` the module.
+impl Drop for HelloWorldModule {
+    fn drop(&mut self) {
+        pr_info!("rust_hello: Goodbye, world! Cleaning up.\n");
+    }
+}
+
+// Register the module with the kernel
+module! {
+    type: HelloWorldModule,
+    name: b"rust_hello",
+    author: b"Anas",
+    description: b"Anas's first 'hello world' Rust kernel module",
+    license: b"GPL v2",
+}
